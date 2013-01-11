@@ -18,6 +18,7 @@ typedef void (^MPNotificationSimpleAction)(id);
 @property (nonatomic, strong) UILabel *textLabel;
 @property (nonatomic, strong) UILabel *detailTextLabel;
 @property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) id object;
 @property (nonatomic, assign) id<MPNotificationViewDelegate> delegate;
 
 @property (nonatomic) NSTimeInterval duration;
@@ -25,28 +26,34 @@ typedef void (^MPNotificationSimpleAction)(id);
 + (MPNotificationView *) notifyWithText:(NSString*)text
                                  detail:(NSString*)detail
                                   image:(UIImage*)image
+                                 object:(id) object
                             andDuration:(NSTimeInterval)duration;
 
 + (MPNotificationView *) notifyWithText:(NSString*)text
                                  detail:(NSString*)detail
+                                 object:(id) object
                             andDuration:(NSTimeInterval)duration;
 
 + (MPNotificationView *) notifyWithText:(NSString*)text
+                                 object:(id) object
                               andDetail:(NSString*)detail;
 
 + (MPNotificationView *) notifyWithText:(NSString*)text
                                  detail:(NSString*)detail
                                   image:(UIImage*)image
                                duration:(NSTimeInterval)duration
+                                 object:(id) object
                           andTouchBlock:(MPNotificationSimpleAction)block;
 
 + (MPNotificationView *) notifyWithText:(NSString*)text
                                  detail:(NSString*)detail
                                duration:(NSTimeInterval)duration
+                                 object:(id) object
                           andTouchBlock:(MPNotificationSimpleAction)block;
 
 + (MPNotificationView *) notifyWithText:(NSString*)text
                                  detail:(NSString*)detail
+                                 object:(id) object
                           andTouchBlock:(MPNotificationSimpleAction)block;
 
 @end

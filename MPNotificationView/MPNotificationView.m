@@ -38,7 +38,10 @@ NSString *kMPNotificationViewTapReceivedNotification = @"kMPNotificationViewTapR
 
 - (void) dealloc
 {
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
+    
 }
 
 - (id) initWithFrame:(CGRect)frame
@@ -182,8 +185,12 @@ static CGFloat const __imagePadding = 8.0f;
 
 - (void) dealloc
 {
+    
     _delegate = nil;
     [self removeGestureRecognizer:_tapGestureRecognizer];
+    
+    [super dealloc];
+    
 }
 
 - (id) initWithFrame:(CGRect)frame
@@ -197,7 +204,7 @@ static CGFloat const __imagePadding = 8.0f;
         
         _contentView = [[OBGradientView alloc] initWithFrame:self.bounds];
         _contentView.colors = @[(id)[[UIColor colorWithWhite:0.99f alpha:1.0f] CGColor],
-                                (id)[[UIColor colorWithWhite:0.9f  alpha:1.0f] CGColor]];
+        (id)[[UIColor colorWithWhite:0.9f  alpha:1.0f] CGColor]];
         
         _contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         _contentView.layer.cornerRadius = 8.0f;
@@ -250,55 +257,65 @@ static CGFloat const __imagePadding = 8.0f;
 }
 
 + (MPNotificationView *) notifyWithText:(NSString*)text
+                                 object:(id) object
                               andDetail:(NSString*)detail
 {
     return [self notifyWithText:text
                          detail:detail
+                         object:object
                     andDuration:2.0f];
 }
 
 + (MPNotificationView *) notifyWithText:(NSString*)text
                                  detail:(NSString*)detail
+                                 object:(id) object
                             andDuration:(NSTimeInterval)duration
 {
     return [self notifyWithText:text
                          detail:detail
                           image:nil
+                         object:object
                     andDuration:duration];
 }
 
 + (MPNotificationView *) notifyWithText:(NSString*)text
                                  detail:(NSString*)detail
                                   image:(UIImage*)image
+                                 object:(id) object
                             andDuration:(NSTimeInterval)duration
 {
     return [self notifyWithText:text
                          detail:detail
                           image:image
                        duration:duration
+                         object:object
                   andTouchBlock:nil];
 }
 
 + (MPNotificationView *) notifyWithText:(NSString*)text
                                  detail:(NSString*)detail
                                duration:(NSTimeInterval)duration
+                                 object:(id) object
                           andTouchBlock:(MPNotificationSimpleAction)block
 {
     return [self notifyWithText:text
                          detail:detail
                           image:nil
                        duration:duration
+                         object:object
                   andTouchBlock:block];
 }
 
 + (MPNotificationView *) notifyWithText:(NSString*)text
                                  detail:(NSString*)detail
+                                 object:(id) object
                           andTouchBlock:(MPNotificationSimpleAction)block
 {
     return [self notifyWithText:text
                          detail:detail
                           image:nil
                        duration:2.0
+                         object:object
                   andTouchBlock:block];
 }
 
@@ -306,6 +323,7 @@ static CGFloat const __imagePadding = 8.0f;
                                  detail:(NSString*)detail
                                   image:(UIImage*)image
                                duration:(NSTimeInterval)duration
+                                 object:(id) object
                           andTouchBlock:(MPNotificationSimpleAction)block
 {
     if (__notificationWindow == nil)
@@ -321,6 +339,7 @@ static CGFloat const __imagePadding = 8.0f;
     notification.imageView.image = image;
     notification.duration = duration;
     notification.tapBlock = block;
+    notification.object = object;
     
     UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc] initWithTarget:notification
                                                                          action:@selector(handleTap:)];
@@ -402,7 +421,7 @@ static CGFloat const __imagePadding = 8.0f;
     CATransform3D viewOutEndTransform = CATransform3DMakeRotation(RADIANS(120), 1.0, 0.0, 0.0);
     viewOutEndTransform.m34 = -1.0 / 200.0;
     
-    [__notificationWindow addSubview:viewToRotateIn];    
+    [__notificationWindow addSubview:viewToRotateIn];
     __notificationWindow.backgroundColor = [UIColor blackColor];
     
     viewToRotateIn.layer.transform = viewInStartTransform;
@@ -443,7 +462,7 @@ static CGFloat const __imagePadding = 8.0f;
                              __notificationWindow.currentNotification = nil;
                          }
                          
-                          __notificationWindow.backgroundColor = [UIColor clearColor];
+                         __notificationWindow.backgroundColor = [UIColor clearColor];
                      }];
 }
 
